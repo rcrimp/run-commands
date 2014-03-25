@@ -53,7 +53,9 @@ rec() { mv -i ~/.Trash/"$1" . ;echo "'$1' recovered from trash"; }
 
 #git
 alias gs='git status'
-
+alias ga='git add -A'
+alias gc='git commit -m'
+alias gp='git push origin master'
 
 #TODO make these more generic
 #cd() { for ".." in "$@" do cd .. done }
