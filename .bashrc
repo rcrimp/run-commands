@@ -1,18 +1,21 @@
 # bashrc
 
-echo -e "New alias(s)
+help(){
+echo -e "ALIASES
+go         - open dir/file
 
-rm - recoverable delete
-rec - recover the deletion
-go - open dir/file
-c - clear but more awesome
-l - ls
-x - exit
+rm         - recoverable delete
+rec        - recover the deletion
+trash      - lists contents of trash
+rmtrash    - unrecoverably removes an item from trash
+emptytrash - unrecoverably removes all items from trash
+
+gs, ga, gc 'm', gp, gacp - git 
 
 ctrl xx -> toggle cursor to front
-ctrl u -> delete line
-CapsLock -> ctrl
-";
+ctrl u -> delete line";}
+
+help
 
 if [ -r $CONFIG_DIR/bashrc ]; then
    . $CONFIG_DIR/bashrc
@@ -50,6 +53,9 @@ mkdircd() { mkdir -p "$@" && cd $_; }
 # recoverable deletion
 alias rm='mv -iv --backup=numbered --target-directory ~/.Trash/'
 rec() { mv -i ~/.Trash/"$1" . ;echo "'$1' recovered from trash"; }
+alias trash='ls -a ~/.Trash/'
+rmtrash() { \rm -i ~/.Trash/"$@";}
+emptytrash() { \rm -rf ~/.Trash/* ~/.Trash/.* 2>&-; }
 
 #git
 alias gs='git status'
