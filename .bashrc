@@ -62,7 +62,7 @@ alias gs='git status'
 alias ga='git add -A'
 alias gc='git commit -m'
 alias gp='git push origin master'
-gacp() { ga; gc "$@"; gp;  }
+gacp() { ga; gc "$@"; gp; }
 
 #TODO make these more generic
 #cd() { for ".." in "$@" do cd .. done }
