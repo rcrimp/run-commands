@@ -62,6 +62,7 @@ alias gs='git status'
 alias ga='git add -A'
 alias gc='git commit -m'
 alias gp='git push origin master'
+alias gl='git lg'
 gacp() { ga; gc "$@"; gp; }
 
 #TODO make these more generic

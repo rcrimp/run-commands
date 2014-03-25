@@ -5,9 +5,6 @@ name = Reuben Crimp
 st = status --untracked-files=no
 
 lg0 = log --graph --oneline --all
-
 lg1 = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(black)%s%C(reset) %C(bold blue)- %an%C(reset)%C(bold red)%d%C(reset)' --all
-
 lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(green)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold red)%d%C(reset)%n''          %C(black)%s%C(reset) %C(bold blue)- %an%C(reset)' --all
-
-lg = !"git lg1"
+lg = !"git lg2"
