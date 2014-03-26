@@ -17,37 +17,46 @@ ctrl u -> delete line";}
 
 help
 
-if [ -r $CONFIG_DIR/bashrc ]; then
-   . $CONFIG_DIR/bashrc
-fi
+#if [ -r $CONFIG_DIR/bashrc ]; then
+#   . $CONFIG_DIR/bashrc
+#fi
 
-#reinds CapsLock to Ctrl
-xmodmap ~/.Xmodmap
+#rebinds CapsLock to Ctrl
+
+
+#OS fix
+if [[ $TERM_PROGRAM == "Apple_Terminal"  ]];
+   then
+   #rebind CapsLock to L_Ctrl on OSX
+   alias ls='ls -G'
+   alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
+   alias e='emacs'
+   
+   else
+   xmodmap ~/.Xmodmap
+   alias ls='ls -G --color=always'
+   alias e='emacs'
+fi
 
 #such meta
 alias bashrc='(e ~/.bashrc &)'
 alias refresh='clear;source ~/.bashrc'
 
 # aliases
-alias c='clear;pwd;ls'
+alias c='clear;pwd;ls .'
 alias l='ls'
-alias ls='ls -G --color=always'
 bind -x '"\C-l": c'
-
-bind '"\C-v": emacs'
 
 alias mv='mv -i'
 alias x='exit'
 alias go='gnome-open'
 alias v='vim'
 alias vi='vim'
-alias e='emacs'
-alias emacs='emacs'
 #wat() { man "$1" | grep "\s\$2"; }
 alias wat='man'
 
 #thx github.com/blbu
-cl() { cd "$@"; ls; }
+cl() { cd "$@"; ls .; }
 mkdircd() { mkdir -p "$@" && cd $_; }
 
 # recoverable deletion
@@ -73,7 +82,7 @@ alias ......='cd ../../..;pwd'
 alias .......='cd ../../../..;pwd'
 
 #fix this
-alias killfirefox="for f in $(ps auxfwww | grep firefox | awk {'print$2'}); do kill -9 $f; done"
+#alias killfirefox="for f in $(ps auxfwww | grep firefox | awk {'print$2'}); do kill -9 $f; done"
 
 # aliases for web dev ing
 alias 212ssh='ssh sapphire'
@@ -85,3 +94,20 @@ alias 212sftp='sftp sapphire'
 
 #aliases for working from home
 alias hexssh='ssh rcrimp@hex.otago.ac.nz'
+
+PS1='\h:\W \u\$ '
+# Make bash check its window size after a process completes
+shopt -s checkwinsize
+# Tell the terminal about the working directory at each prompt.
+if [ "$TERM_PROGRAM" == "Apple_Terminal" ] && [ -z "$INSIDE_EMACS" ]; then
+   update_terminal_cwd() {
+        # Identify the directory using a "file:" scheme URL,
+        # including the host name to disambiguate local vs.
+        # remote connections. Percent-escape spaces.
+      local SEARCH=' '
+      local REPLACE='%20'
+      local PWD_URL="file://$HOSTNAME${PWD//$SEARCH/$REPLACE}"
+      printf '\e]7;%s\a' "$PWD_URL"
+   }
+   PROMPT_COMMAND="update_terminal_cwd; $PROMPT_COMMAND"
+fi
