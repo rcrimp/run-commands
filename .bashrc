@@ -1,28 +1,10 @@
 # bashrc
 
-help(){
-echo -e "ALIASES
-go         - open dir/file
-
-rm         - recoverable delete
-rec        - recover the deletion
-trash      - lists contents of trash
-rmtrash    - unrecoverably removes an item from trash
-emptytrash - unrecoverably removes all items from trash
-
-gs, ga, gc 'm', gp, gacp - git 
-
-ctrl xx -> toggle cursor to front
-ctrl u -> delete line";}
-
-help
-
 #if [ -r $CONFIG_DIR/bashrc ]; then
 #   . $CONFIG_DIR/bashrc
 #fi
 
 #rebinds CapsLock to Ctrl
-
 
 #OS fix
 if [[ $TERM_PROGRAM == "Apple_Terminal"  ]];
@@ -31,11 +13,13 @@ if [[ $TERM_PROGRAM == "Apple_Terminal"  ]];
    alias ls='ls -G'
    alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
    alias e='emacs'
-   
+   alias go='open'
    else
    xmodmap ~/.Xmodmap
    alias ls='ls -G --color=always'
    alias e='emacs'
+   alias open='gnome-open'
+   alias go='gnome-open'
 fi
 
 #such meta
@@ -46,13 +30,10 @@ alias refresh='clear;source ~/.bashrc'
 alias c='clear;pwd;ls .'
 alias l='ls'
 bind -x '"\C-l": c'
-
 alias mv='mv -i'
 alias x='exit'
-alias go='gnome-open'
 alias v='vim'
 alias vi='vim'
-#wat() { man "$1" | grep "\s\$2"; }
 alias wat='man'
 
 #thx github.com/blbu
@@ -111,3 +92,18 @@ if [ "$TERM_PROGRAM" == "Apple_Terminal" ] && [ -z "$INSIDE_EMACS" ]; then
    }
    PROMPT_COMMAND="update_terminal_cwd; $PROMPT_COMMAND"
 fi
+
+#Startup
+echo "Do you want to download changes from git?"
+read answer
+if [[ $answer == "y" ]]
+then
+   cd ~/uni/
+   git status
+   git pull
+   git add -A
+   git commit -m "$(date)"
+   git push
+fi
+clear
+#echo -e "new ALIASES ctrl xx -> toggle cursor to front"
