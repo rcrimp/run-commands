@@ -1,0 +1,9 @@
+!
+! Swap Caps_Lock and Control_L
+!
+
+clear lock
+remove Control = Control_L
+! have to use numeric keycode :( keysym Caps_Lock = Control_L
+keycode 66 = Control_L
+add Control = Control_L

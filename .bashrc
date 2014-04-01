@@ -41,7 +41,14 @@ cl() { cd "$@"; ls .; }
 mkdircd() { mkdir -p "$@" && cd $_; }
 
 # recoverable deletion
-alias rm='mv -iv --backup=numbered --target-directory ~/.Trash/'
+
+#if [[ $TERM_PROGRAM == "Apple_Terminal"  ]];
+#then
+   #rm() { mv -iv "$@" ~/.Trash; }
+#else
+   #alias rm='mv -iv --backup=numbered --target-directory ~/.Trash/'
+#fi
+rmd() { mv -iv "$@" ~/.Trash/; }
 rec() { mv -i ~/.Trash/"$1" . ;echo "'$1' recovered from trash"; }
 alias trash='ls -a ~/.Trash/'
 rmtrash() { \rm -i ~/.Trash/"$@";}
