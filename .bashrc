@@ -4,17 +4,36 @@
 #   . $CONFIG_DIR/bashrc
 #fi
 
-#rebinds CapsLock to Ctrl
+#PS1='\h:\W \u\$ '
+GREEN="\e[1;32m"
+RED="\e[1;31m"
+NONE="\e[m"
 
+get_exit_status(){
+   es=$?
+   if [ $es -eq 0 ]
+   then
+      echo -e "${GREEN}${es}${NONE}"
+   else
+      echo -e "${RED}${es}${NONE}"
+   fi
+}
+
+PROMPT_COMMAND='exitStatus=$(get_exit_status)'
+type gnome-open >/dev/null 2>&1 && alias open='gnome-open'
+type gvfs-open >/dev/null 2>&1 && alias open='gvfs-open'
+
+#rebinds CapsLock to Ctrl
 #OS fix
 if [[ $TERM_PROGRAM == "Apple_Terminal"  ]];
-   then
+then
    #rebind CapsLock to L_Ctrl on OSX
    alias ls='ls -G'
    alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
    alias e='emacs'
    alias go='open'
-   else
+else
+   PS1='[\t] \W \[$exitStatus\] \$ '
    xmodmap ~/.Xmodmap
    alias ls='ls -G --color=always'
    alias e='emacs'
@@ -44,9 +63,9 @@ mkdircd() { mkdir -p "$@" && cd $_; }
 
 #if [[ $TERM_PROGRAM == "Apple_Terminal"  ]];
 #then
-   #rm() { mv -iv "$@" ~/.Trash; }
+#rm() { mv -iv "$@" ~/.Trash; }
 #else
-   #alias rm='mv -iv --backup=numbered --target-directory ~/.Trash/'
+#alias rm='mv -iv --backup=numbered --target-directory ~/.Trash/'
 #fi
 rmd() { mv -iv "$@" ~/.Trash/; }
 rec() { mv -i ~/.Trash/"$1" . ;echo "'$1' recovered from trash"; }
@@ -75,6 +94,7 @@ alias .......='cd ../../../..;pwd'
 # aliases for web dev ing
 alias 212ssh='ssh sapphire'
 alias 212sftp='sftp sapphire'
+alias hex='ssh rcrimp@hex.otago.ac.nz'
 #TODO make the following more generic and usable
 #alias 212up='rsync -rpq ../classiccinema/ rcrimp@sapphire.otago.ac.nz:/devel/rcrimp/projects/classiccinema/'
 #alias Eup='rsync -rpq * rcrimp@sapphire.otago.ac.nz:/devel/rcrimp/projects/endlessia/'
@@ -82,35 +102,3 @@ alias 212sftp='sftp sapphire'
 
 #aliases for working from home
 alias hexssh='ssh rcrimp@hex.otago.ac.nz'
-
-PS1='\h:\W \u\$ '
-# Make bash check its window size after a process completes
-shopt -s checkwinsize
-# Tell the terminal about the working directory at each prompt.
-if [ "$TERM_PROGRAM" == "Apple_Terminal" ] && [ -z "$INSIDE_EMACS" ]; then
-   update_terminal_cwd() {
-        # Identify the directory using a "file:" scheme URL,
-        # including the host name to disambiguate local vs.
-        # remote connections. Percent-escape spaces.
-      local SEARCH=' '
-      local REPLACE='%20'
-      local PWD_URL="file://$HOSTNAME${PWD//$SEARCH/$REPLACE}"
-      printf '\e]7;%s\a' "$PWD_URL"
-   }
-   PROMPT_COMMAND="update_terminal_cwd; $PROMPT_COMMAND"
-fi
-
-#Startup
-echo "Do you want to download changes from git?"
-read answer
-if [[ $answer == "y" ]]
-then
-   cd ~/uni/
-   git status
-   git pull
-   git add -A
-   git commit -m "$(date)"
-   git push
-fi
-clear
-#echo -e "new ALIASES ctrl xx -> toggle cursor to front"
