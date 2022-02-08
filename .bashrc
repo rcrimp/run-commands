@@ -95,7 +95,7 @@ match_lhs=""
    alias free='free -m'                      # show sizes in MB
    alias np='nano -w PKGBUILD'
    alias more=less
-   alias ls='exa -al --color=always --group-directories-first'
+   # alias ls='exa -al --color=always --group-directories-first'
    alias c='clear; neofetch; ls .'
    alias mv='mv -i'
    alias v='vim'
@@ -146,4 +146,8 @@ neofetch
 ls
 export VISUAL=vim;
 export EDITOR=vim;
-export BROWSER=firefox;
+# export BROWSER=firefox;
+export BROWSER=google-chrome-stable;
+
+alias fixtime="sudo ntpdate 129.6.15.28"
+
